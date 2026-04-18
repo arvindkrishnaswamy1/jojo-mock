@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JoJo — Sweet Dream Stories</title>
+<style>
+
+/* ─────────────────────────────────────────────
+   FOUNDATION
+───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg-base:       #080604;
+  --bg-1:          #111008;
+  --bg-2:          #1C1710;
+  --bg-3:          #261F14;
+  --bg-4:          #302818;
+  --text-primary:  #F0E8D6;
+  --text-secondary:#9A8468;
+  --text-tertiary: #5C4E3A;
+  --gold:          #F0C040;
+  --gold-dim:      #A07820;
+  --gold-glow:     rgba(240,192,64,0.15);
+  --amber:         #D97830;
+  --amber-dim:     rgba(217,120,48,0.2);
+  --moon:          #7AAEC8;
+  --moon-dim:      rgba(122,174,200,0.18);
+  --rose:          #C87890;
+  --rose-dim:      rgba(200,120,144,0.18);
+  --hl-hero:       rgba(240,192,64,0.22);
+  --hl-side:       rgba(122,174,200,0.20);
+  --hl-parent:     rgba(200,120,144,0.20);
+  --border:        rgba(255,255,255,0.07);
+  --border-strong: rgba(255,255,255,0.12);
+  --glass:         rgba(255,255,255,0.04);
+  --glass-strong:  rgba(255,255,255,0.07);
+  --radius-sm:   10px;
+  --radius-md:   16px;
+  --radius-lg:   22px;
+  --radius-xl:   30px;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.4);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.5);
+  --shadow-lg: 0 16px 48px rgba(0,0,0,0.6);
+}
+
+body {
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  background: #000;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ─────────────────────────────────────────────
+   PHONE SHELL
+───────────────────────────────────────────── */
+.phone {
+  width: 393px; height: 852px;
+  background: #000;
+  border-radius: 54px;
+  position: relative;
+  box-shadow: 0 0 0 1px #1a1a1a, 0 0 0 3px #111, 0 40px 80px rgba(0,0,0,0.9), inset 0 0 0 1px #2a2a2a;
+  overflow: hidden;
+}
+.phone-screen {
+  position: absolute; inset: 0;
+  border-radius: 52px;
+  overflow: hidden;
+  background: var(--bg-base);
+}
+.dynamic-island {
+  position: absolute; top: 12px; left: 50%;
+  transform: translateX(-50%);
+  width: 120px; height: 34px;
+  background: #000; border-radius: 20px; z-index: 1000;
+}
+
+/* ─────────────────────────────────────────────
+   SCREEN SYSTEM
+───────────────────────────────────────────── */
+.screen {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  opacity: 0; pointer-events: none;
+  transform: translateX(24px);
+  transition: opacity 0.38s cubic-bezier(.4,0,.2,1), transform 0.38s cubic-bezier(.4,0,.2,1);
+  overflow: hidden;
+}
+.screen.active  { opacity: 1; pointer-events: all; transform: none; }
+.screen.exit    { opacity: 0; transform: translateX(-20px); }
+
+/* ─────────────────────────────────────────────
+   STATUS BAR
+───────────────────────────────────────────── */
+.status {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 54px 28px 0;
+  font-size: 12px; font-weight: 600; color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────────
+   TYPOGRAPHY
+───────────────────────────────────────────── */
+.t-display { font-size: 30px; font-weight: 800; color: var(--text-primary); line-height: 1.15; letter-spacing: -0.5px; }
+.t-title   { font-size: 22px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.3px; }
+.t-heading { font-size: 17px; font-weight: 700; color: var(--text-primary); }
+.t-body    { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
+.t-caption { font-size: 12px; color: var(--text-tertiary); }
+.t-label   { font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text-tertiary); }
+.t-gold    { color: var(--gold); }
+
+/* ─────────────────────────────────────────────
+   BUTTONS
+───────────────────────────────────────────── */
+.btn-cta {
+  width: 100%; padding: 17px;
+  border: none; border-radius: var(--radius-lg);
+  background: var(--gold); color: #1A1000;
+  font-size: 16px; font-weight: 800; cursor: pointer;
+  letter-spacing: -0.2px;
+  box-shadow: 0 4px 20px rgba(240,192,64,0.35);
+  transition: transform 0.12s, box-shadow 0.12s, opacity 0.12s;
+}
+.btn-cta:active { transform: scale(0.97); opacity: 0.9; }
+
+.btn-outline {
+  width: 100%; padding: 15px;
+  border: 1px solid var(--border-strong); border-radius: var(--radius-lg);
+  background: var(--glass); color: var(--text-primary);
+  font-size: 15px; font-weight: 600; cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-outline:active { background: var(--glass-strong); }
+
+.btn-ghost {
+  background: none; border: none;
+  color: var(--text-secondary); font-size: 15px; cursor: pointer; padding: 8px;
+}
+.btn-icon {
+  width: 40px; height: 40px; border-radius: 20px;
+  background: var(--glass-strong); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; cursor: pointer; color: var(--text-primary);
+}
+
+/* ─────────────────────────────────────────────
+   INPUTS
+───────────────────────────────────────────── */
+.input-wrap { margin-bottom: 18px; }
+.input-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 7px; letter-spacing: 0.2px; }
+.input-field {
+  width: 100%; padding: 14px 16px;
+  background: var(--bg-2); border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  font-size: 16px; color: var(--text-primary); outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none;
+}
+.input-field:focus { border-color: var(--gold-dim); box-shadow: 0 0 0 3px rgba(240,192,64,0.1); }
+.input-hint { font-size: 11px; color: var(--text-tertiary); margin-top: 5px; }
+
+/* ─────────────────────────────────────────────
+   CHIPS
+───────────────────────────────────────────── */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  padding: 8px 14px; border-radius: 20px;
+  border: 1px solid var(--border-strong); background: var(--glass);
+  font-size: 13px; font-weight: 500; color: var(--text-secondary);
+  cursor: pointer; transition: all 0.18s; user-select: none;
+}
+.chip.on { border-color: var(--gold-dim); background: rgba(240,192,64,0.12); color: var(--gold); }
+
+/* ─────────────────────────────────────────────
+   CARDS
+───────────────────────────────────────────── */
+.card { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-lg); }
+.card-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 15px 18px; border-bottom: 1px solid var(--border); cursor: pointer;
+}
+.card-row:last-child { border-bottom: none; }
+
+/* ─────────────────────────────────────────────
+   PROGRESS (ONBOARDING)
+───────────────────────────────────────────── */
+.ob-progress { display: flex; gap: 6px; padding: 12px 28px 0; flex-shrink: 0; }
+.ob-dot { flex: 1; height: 3px; border-radius: 2px; background: var(--bg-3); transition: background 0.3s; }
+.ob-dot.on { background: var(--gold); }
+
+/* ─────────────────────────────────────────────
+   BOTTOM NAV
+───────────────────────────────────────────── */
+.bottom-nav {
+  display: flex; justify-content: space-around;
+  padding: 12px 0 28px;
+  background: rgba(8,6,4,0.85);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border); flex-shrink: 0;
+}
+.nav-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: none; cursor: pointer; padding: 4px 20px; }
+.nav-icon { font-size: 22px; opacity: 0.35; transition: opacity 0.2s; }
+.nav-lbl  { font-size: 10px; font-weight: 600; color: var(--text-tertiary); transition: color 0.2s; }
+.nav-btn.on .nav-icon { opacity: 1; }
+.nav-btn.on .nav-lbl  { color: var(--gold); }
+
+/* ─────────────────────────────────────────────
+   BADGES
+───────────────────────────────────────────── */
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+.badge-gold  { background: rgba(240,192,64,0.15); color: var(--gold); }
+.badge-green { background: rgba(52,199,89,0.15);  color: #4CD964; }
+.badge-amber { background: rgba(217,120,48,0.15); color: #E09040; }
+.badge-moon  { background: var(--moon-dim); color: var(--moon); }
+
+/* STORY HIGHLIGHTS */
+.hl-h { background: var(--hl-hero);   border-radius: 3px; padding: 1px 3px; font-weight: 700; color: var(--gold); }
+.hl-s { background: var(--hl-side);   border-radius: 3px; padding: 1px 3px; font-weight: 600; color: var(--moon); }
+.hl-p { background: var(--hl-parent); border-radius: 3px; padding: 1px 3px; font-weight: 600; color: var(--rose); }
+
+.hr { height: 1px; background: var(--border); margin: 16px 0; }
+.scroll { overflow-y: auto; overflow-x: hidden; scrollbar-width: none; }
+.scroll::-webkit-scrollbar { display: none; }
+.px { padding-left: 24px; padding-right: 24px; }
+
+/* GAPS */
+.gap-sm { height: 12px; flex-shrink: 0; }
+.gap-md { height: 20px; flex-shrink: 0; }
+.gap-lg { height: 32px; flex-shrink: 0; }
+.gap-xl { height: 48px; flex-shrink: 0; }
+
+/* ─────────────────────────────────────────────
+   ANIMATIONS
+───────────────────────────────────────────── */
+@keyframes spin     { to { transform: rotate(360deg); } }
+@keyframes pulse    { 0%,100%{opacity:.5} 50%{opacity:1} }
+@keyframes twinkle  { 0%,100%{opacity:.2} 50%{opacity:.9} }
+@keyframes rise     { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+@keyframes float    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+@keyframes audioBar { 0%{height:4px} 50%{height:16px} 100%{height:4px} }
+@keyframes shimmer  { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+.spin  { animation: spin  1s linear infinite; }
+.pulse { animation: pulse 2s ease-in-out infinite; }
+.float { animation: float 4s ease-in-out infinite; }
+
+.stars-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.star-dot {
+  position: absolute; width: 2px; height: 2px;
+  background: white; border-radius: 50%;
+  animation: twinkle var(--d,3s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+.vis-bar { width: 3px; border-radius: 2px; background: var(--gold); animation: audioBar var(--d,.6s) ease-in-out infinite; animation-delay: var(--delay,0s); }
+
+/* ════════════════════════════════════════════
+   SCREEN-SPECIFIC STYLES
+════════════════════════════════════════════ */
+
+/* WELCOME */
+.welcome-bg {
+  flex: 1;
+  background: radial-gradient(ellipse at 50% 30%, #1A160A 0%, #080604 70%);
+  display: flex; flex-direction: column;
+  padding: 56px 28px 0;
+  position: relative; overflow: hidden;
+}
+.moon-glow {
+  position: absolute; top: 60px; right: 40px;
+  width: 80px; height: 80px;
+  background: radial-gradient(circle, rgba(240,210,120,0.5) 0%, transparent 70%);
+  border-radius: 50%; pointer-events: none;
+  animation: pulse 4s ease-in-out infinite;
+}
+.moon-circle {
+  position: absolute; top: 70px; right: 48px;
+  width: 60px; height: 60px;
+  background: radial-gradient(circle at 35% 35%, #F5E8B0, #D4B860);
+  border-radius: 50%;
+  box-shadow: 0 0 30px rgba(240,210,120,0.4);
+}
+.welcome-scene {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 180px;
+  display: flex; align-items: flex-end; justify-content: center;
+  pointer-events: none;
+}
+.sil-house { width: 60px; height: 50px; background: #0D0B07; border-radius: 2px; position: relative; flex-shrink: 0; }
+.sil-roof  { position: absolute; top: -22px; left: -6px; border-left: 36px solid transparent; border-right: 36px solid transparent; border-bottom: 24px solid #0D0B07; }
+.sil-window { position: absolute; top: 12px; left: 12px; width: 16px; height: 16px; background: rgba(240,200,80,0.3); border-radius: 2px; box-shadow: 0 0 8px rgba(240,200,80,0.3); }
+.sil-tree  { width: 8px; height: 60px; background: #0A0805; border-radius: 4px; flex-shrink: 0; }
+.welcome-card {
+  background: rgba(26,22,14,0.9);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border-strong);
+  border-radius: 32px 32px 0 0;
+  padding: 28px 24px 40px; flex-shrink: 0;
+}
+.signin-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg-2); border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md); cursor: pointer; transition: background 0.15s; margin-bottom: 10px;
+}
+.signin-row:active { background: var(--bg-3); }
+
+/* ONBOARDING */
+.ob-screen { background: var(--bg-base); }
+.ob-nav    { display: flex; align-items: center; justify-content: space-between; padding: 10px 20px 0; flex-shrink: 0; }
+.ob-content { flex: 1; overflow-y: auto; padding: 24px 24px 0; scrollbar-width: none; }
+.ob-content::-webkit-scrollbar { display: none; }
+.ob-footer  { padding: 16px 24px 40px; flex-shrink: 0; background: linear-gradient(to bottom, transparent, var(--bg-base) 40%); }
+
+/* ROLE GROUP */
+.role-group-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase;
+  color: var(--text-tertiary); margin-bottom: 6px; margin-top: 10px;
+}
+
+/* CUSTOM FAVORITES */
+.fav-row {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg-2); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: 10px 12px; margin-bottom: 8px;
+}
+.fav-row input {
+  background: none; border: none; outline: none;
+  font-size: 14px; color: var(--text-primary); flex: 1;
+  font-family: inherit;
+}
+.fav-row input::placeholder { color: var(--text-tertiary); }
+.fav-divider { width: 1px; height: 18px; background: var(--border-strong); flex-shrink: 0; }
+.fav-remove { background: none; border: none; color: var(--text-tertiary); font-size: 18px; cursor: pointer; padding: 0 2px; line-height: 1; flex-shrink: 0; }
+
+/* PRICING */
+.plan-card {
+  border: 1px solid var(--border-strong); border-radius: var(--radius-lg);
+  padding: 18px; margin-bottom: 12px; cursor: pointer;
+  transition: border-color 0.2s; position: relative;
+}
+.plan-card.featured {
+  border-color: var(--gold-dim);
+  background: linear-gradient(135deg, rgba(240,192,64,0.06), rgba(240,192,64,0.02));
+}
+.plan-badge {
+  position: absolute; top: -11px; left: 18px;
+  background: var(--gold); color: #1A1000;
+  font-size: 10px; font-weight: 800; padding: 4px 12px; border-radius: 20px; letter-spacing: 0.3px;
+}
+
+/* PLAN TABS */
+.plan-tabs {
+  display: flex; background: var(--bg-2);
+  border-radius: var(--radius-md); padding: 3px; margin-bottom: 16px;
+}
+.plan-tab {
+  flex: 1; padding: 9px; border-radius: 13px;
+  border: none; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+}
+.plan-tab.on  { background: var(--gold); color: #1A1000; font-weight: 800; }
+.plan-tab.off { background: transparent; color: var(--text-secondary); }
+
+/* GIFT BANNER */
+.gift-banner {
+  background: linear-gradient(135deg, rgba(240,192,64,0.1), rgba(217,120,48,0.07));
+  border: 1px solid rgba(240,192,64,0.28); border-radius: var(--radius-lg);
+  padding: 14px 16px; cursor: pointer;
+  display: flex; align-items: center; gap: 12px;
+  transition: border-color 0.2s;
+}
+.gift-banner:active { border-color: var(--gold); }
+
+/* HOME */
+.story-hero-card { border-radius: var(--radius-xl); overflow: hidden; position: relative; cursor: pointer; box-shadow: var(--shadow-lg); }
+.story-hero-img  { width: 100%; height: 220px; display: flex; align-items: center; justify-content: center; font-size: 80px; position: relative; }
+.story-hero-gradient { position: absolute; bottom: 0; left: 0; right: 0; height: 140px; background: linear-gradient(to bottom, transparent, rgba(8,6,4,0.98)); }
+.story-hero-info { padding: 0 20px 20px; background: var(--bg-base); }
+
+/* STORY */
+.story-screen-bg { background: var(--bg-1); }
+.story-header {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 10;
+  padding: 54px 20px 0;
+  display: flex; align-items: center; justify-content: space-between;
+  background: linear-gradient(to bottom, var(--bg-1) 0%, transparent 100%);
+}
+.story-art {
+  width: 100%; height: 260px;
+  display: flex; align-items: center; justify-content: center; font-size: 90px;
+  background: radial-gradient(ellipse at center, #261F0A, #0D0A05);
+  flex-shrink: 0; position: relative; overflow: hidden;
+}
+.story-art-glow { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 80%, rgba(240,192,64,0.12), transparent 60%); }
+.story-text { font-size: 18px; line-height: 1.85; color: var(--text-primary); font-weight: 400; letter-spacing: 0.1px; }
+.story-text p { margin-bottom: 20px; }
+.moral-card { background: var(--bg-2); border: 1px solid rgba(240,192,64,0.2); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 24px; }
+
+/* AUDIO BAR */
+.audio-bar {
+  flex-shrink: 0;
+  background: rgba(12,10,6,0.92);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-top: 1px solid var(--border); padding: 12px 22px 34px;
+}
+.audio-progress { height: 3px; background: var(--bg-3); border-radius: 2px; margin-bottom: 14px; overflow: hidden; }
+.audio-fill { height: 100%; width: 38%; background: var(--gold); border-radius: 2px; box-shadow: 0 0 8px rgba(240,192,64,0.5); }
+.audio-time { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-tertiary); margin-bottom: 14px; }
+.audio-controls { display: flex; align-items: center; justify-content: space-between; }
+.audio-play { width: 52px; height: 52px; border-radius: 26px; background: var(--gold); border: none; cursor: pointer; font-size: 22px; color: #1A1000; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(240,192,64,0.4); transition: transform 0.12s; }
+.audio-play:active { transform: scale(0.94); }
+.audio-side-btn { width: 40px; height: 40px; border-radius: 20px; background: var(--glass-strong); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; color: var(--text-primary); }
+.speed-btn { padding: 6px 12px; border-radius: 10px; background: var(--glass-strong); border: 1px solid var(--border); font-size: 12px; font-weight: 700; color: var(--text-secondary); cursor: pointer; }
+
+/* STORY END */
+.end-stars { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+
+/* LIBRARY */
+.lib-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.lib-card { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; cursor: pointer; transition: transform 0.15s; }
+.lib-card:active { transform: scale(0.97); }
+.lib-art  { height: 88px; display: flex; align-items: center; justify-content: center; font-size: 38px; position: relative; overflow: hidden; }
+.lib-info { padding: 10px 12px 12px; }
+
+/* SETTINGS */
+.settings-avatar { width: 56px; height: 56px; border-radius: 28px; background: linear-gradient(135deg, var(--gold-dim), var(--amber)); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+.toggle { width: 48px; height: 28px; border-radius: 14px; background: #34C759; position: relative; cursor: pointer; flex-shrink: 0; }
+.toggle-knob { position: absolute; top: 3px; right: 3px; width: 22px; height: 22px; border-radius: 11px; background: white; box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+
+/* GENERATING */
+.gen-screen { background: var(--bg-base); align-items: center; justify-content: center; }
+.gen-ring  { width: 90px; height: 90px; border-radius: 45px; border: 2px solid var(--border-strong); border-top: 2px solid var(--gold); animation: spin 1.2s linear infinite; }
+.gen-inner { position: absolute; width: 70px; height: 70px; border-radius: 35px; border: 2px solid var(--border); border-bottom: 2px solid rgba(240,192,64,0.4); animation: spin 2s linear infinite reverse; }
+
+/* SPECIAL MODE CHIP — purple accent */
+.chip.special.on { border-color: rgba(180,120,240,0.5); background: rgba(180,120,240,0.12); color: #C896F0; }
+
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="phone-screen">
+    <div class="dynamic-island"></div>
+
+<!-- ══════════════════════════════════════════════
+     S1 · WELCOME
+══════════════════════════════════════════════ -->
+<div class="screen active" id="s-welcome">
+  <div class="welcome-bg">
+    <div class="stars-bg" id="stars"></div>
+    <div class="moon-glow"></div>
+    <div class="moon-circle"></div>
+
+    <div style="padding-top:28px; position:relative; z-index:2">
+      <!-- JoJo wordmark -->
+      <div style="font-size:42px; font-weight:900; color:var(--gold); letter-spacing:-1px; line-height:1; margin-bottom:10px; text-shadow:0 0 40px rgba(240,192,64,0.4)">JoJo</div>
+      <div style="font-size:16px; font-weight:500; color:var(--text-primary); line-height:1.5; margin-bottom:6px">Sweet dream stories with Love.</div>
+      <div style="font-size:14px; color:var(--text-secondary)">For every Sleep time.</div>
+
+      <div style="margin-top:24px; display:flex; gap:8px; flex-wrap:wrap">
+        <div class="badge badge-gold">Mythology</div>
+        <div class="badge badge-moon">Fairy Tales</div>
+        <div class="badge badge-amber">Marvel · DC</div>
+        <div class="badge" style="background:rgba(200,120,144,0.15); color:var(--rose)">Panchatantra</div>
+      </div>
+    </div>
+
+    <div class="welcome-scene">
+      <div class="sil-tree" style="height:80px; margin-right:4px"></div>
+      <div class="sil-house">
+        <div class="sil-roof"></div>
+        <div class="sil-window"></div>
+      </div>
+      <div class="sil-tree" style="height:50px; margin-left:6px"></div>
+      <div class="sil-tree" style="height:90px; margin-left:12px; opacity:0.5"></div>
+    </div>
+  </div>
+
+  <div class="welcome-card">
+    <div class="t-label" style="text-align:center; margin-bottom:18px">Join 14,000+ families worldwide</div>
+
+    <div class="signin-row" onclick="go('s-ob1')">
+      <div style="width:32px; height:32px; background:#fff; border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; color:#4285F4; font-weight:700">G</div>
+      <div style="font-size:15px; font-weight:600; color:var(--text-primary)">Continue with Google</div>
+    </div>
+
+    <div class="signin-row" style="background:var(--gold); border-color:transparent" onclick="go('s-ob1')">
+      <div style="width:32px; height:32px; background:rgba(0,0,0,0.15); border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0">📱</div>
+      <div style="font-size:15px; font-weight:700; color:#1A1000">Continue with Phone</div>
+    </div>
+
+    <div class="t-caption" style="text-align:center; margin-top:14px">
+      7 nights free &nbsp;·&nbsp; No card required &nbsp;·&nbsp; Cancel anytime
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     S2 · ONBOARDING 1 — Parent
+══════════════════════════════════════════════ -->
+<div class="screen ob-screen" id="s-ob1">
+  <div class="status"><span>9:41</span><span style="opacity:.6">●●●●</span></div>
+  <div class="ob-nav">
+    <button class="btn-ghost" onclick="go('s-welcome')">‹ Back</button>
+    <button class="btn-ghost" style="font-size:13px" onclick="go('s-home')">Skip</button>
+  </div>
+  <div class="ob-progress">
+    <div class="ob-dot on"></div><div class="ob-dot"></div>
+    <div class="ob-dot"></div><div class="ob-dot"></div>
+  </div>
+  <div class="ob-content">
+    <div class="gap-lg"></div>
+    <div style="font-size:44px; margin-bottom:16px">👋</div>
+    <div class="t-display" style="margin-bottom:8px">Nice to meet you.</div>
+    <div class="t-body" style="margin-bottom:28px">When your child is brave, the story whispers — <em style="color:var(--gold)">"and Mamma smiled with quiet pride."</em></div>
+
+    <div class="input-wrap">
+      <label class="input-label">Your first name</label>
+      <input class="input-field" value="Priya" placeholder="Your name">
+    </div>
+
+    <div class="input-wrap">
+      <label class="input-label">Your role in the story</label>
+      <div class="role-group-label">Mother</div>
+      <div class="chips" style="margin-bottom:10px">
+        <div class="chip on">Mamma</div>
+        <div class="chip" onclick="tog(this)">Mama</div>
+        <div class="chip" onclick="tog(this)">Mom</div>
+        <div class="chip" onclick="tog(this)">Mummy</div>
+        <div class="chip" onclick="tog(this)">Amma</div>
+        <div class="chip" onclick="tog(this)">Aai</div>
+      </div>
+      <div class="role-group-label">Father</div>
+      <div class="chips" style="margin-bottom:10px">
+        <div class="chip" onclick="tog(this)">Papa</div>
+        <div class="chip" onclick="tog(this)">Dad</div>
+        <div class="chip" onclick="tog(this)">Daddy</div>
+        <div class="chip" onclick="tog(this)">Appa</div>
+        <div class="chip" onclick="tog(this)">Baba</div>
+        <div class="chip" onclick="tog(this)">Tata</div>
+      </div>
+      <div class="role-group-label">Grandparent</div>
+      <div class="chips">
+        <div class="chip" onclick="tog(this)">Nani</div>
+        <div class="chip" onclick="tog(this)">Dadi</div>
+        <div class="chip" onclick="tog(this)">Nana</div>
+        <div class="chip" onclick="tog(this)">Dada</div>
+        <div class="chip" onclick="tog(this)">Granny</div>
+        <div class="chip" onclick="tog(this)">Grandpa</div>
+      </div>
+    </div>
+    <div class="gap-xl"></div>
+  </div>
+  <div class="ob-footer">
+    <button class="btn-cta" onclick="go('s-ob2')">Continue</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     S3 · ONBOARDING 2 — Child
+══════════════════════════════════════════════ -->
+<div class="screen ob-screen" id="s-ob2">
+  <div class="status"><span>9:41</span><span style="opacity:.6">●●●●</span></div>
+  <div class="ob-nav">
+    <button class="btn-ghost" onclick="go('s-ob1')">‹ Back</button>
+    <button class="btn-ghost" style="font-size:13px" onclick="go('s-home')">Skip</button>
+  </div>
+  <div class="ob-progress">
+    <div class="ob-dot on"></div><div class="ob-dot on"></div>
+    <div class="ob-dot"></div><div class="ob-dot"></div>
+  </div>
+  <div class="ob-content">
+    <div class="gap-lg"></div>
+    <div style="font-size:44px; margin-bottom:16px">⭐</div>
+    <div class="t-display" style="margin-bottom:8px">Who's the Star?</div>
+    <div class="t-body" style="margin-bottom:28px">Their name echoes through every story — spoken by gods, praised by kings.</div>
+
+    <div class="input-wrap">
+      <label class="input-label">Child's name</label>
+      <input class="input-field" value="Arya" placeholder="Name">
+    </div>
+    <div class="input-wrap">
+      <label class="input-label">Age group</label>
+      <div class="chips">
+        <div class="chip" onclick="tog(this)">3–5</div>
+        <div class="chip on" onclick="tog(this)">6–8</div>
+        <div class="chip" onclick="tog(this)">9–11</div>
+        <div class="chip" onclick="tog(this)">12–14</div>
+      </div>
+    </div>
+    <div class="input-wrap">
+      <label class="input-label">Pronouns</label>
+      <div class="chips">
+        <div class="chip on">she / her</div>
+        <div class="chip" onclick="tog(this)">he / him</div>
+        <div class="chip" onclick="tog(this)">they / them</div>
+      </div>
+    </div>
+
+    <div style="background:rgba(240,192,64,0.06); border:1px solid rgba(240,192,64,0.15); border-radius:var(--radius-md); padding:14px; margin-top:4px">
+      <span style="font-size:13px; color:var(--text-secondary)">＋ Add a second child — up to <strong style="color:var(--gold)">2 profiles</strong> per account</span>
+    </div>
+    <div class="gap-xl"></div>
+  </div>
+  <div class="ob-footer">
+    <button class="btn-cta" onclick="go('s-ob3')">Continue</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     S4 · ONBOARDING 3 — Child's World
+══════════════════════════════════════════════ -->
+<div class="screen ob-screen" id="s-ob3">
+  <div class="status"><span>9:41</span><span style="opacity:.6">●●●●</span></div>
+  <div class="ob-nav">
+    <button class="btn-ghost" onclick="go('s-ob2')">‹ Back</button>
+    <button class="btn-ghost" style="font-size:13px" onclick="go('s-home')">Skip</button>
+  </div>
+  <div class="ob-progress">
+    <div class="ob-dot on"></div><div class="ob-dot on"></div>
+    <div class="ob-dot on"></div><div class="ob-dot"></div>
+  </div>
+  <div class="ob-content">
+    <div class="gap-lg"></div>
+    <div style="font-size:44px; margin-bottom:16px">🌟</div>
+    <div class="t-display" style="margin-bottom:8px">Arya's world</div>
+    <div class="t-body" style="margin-bottom:28px">The more we know, the more real the magic feels.</div>
+
+    <div class="input-wrap">
+      <label class="input-label">Best friend or cousin (becomes the sidekick)</label>
+      <input class="input-field" value="Rohan" placeholder="Friend's name" style="margin-bottom:10px">
+      <input class="input-field" placeholder="Second friend (optional)">
+    </div>
+
+    <div class="input-wrap">
+      <label class="input-label">What is Arya most proud of?</label>
+      <div class="chips">
+        <div class="chip on">Brave</div>
+        <div class="chip" onclick="tog(this)">Smart</div>
+        <div class="chip" onclick="tog(this)">Kind</div>
+        <div class="chip" onclick="tog(this)">Funny</div>
+        <div class="chip" onclick="tog(this)">Fast</div>
+        <div class="chip" onclick="tog(this)">Creative</div>
+      </div>
+    </div>
+
+    <div class="input-wrap">
+      <label class="input-label">Favourite animal</label>
+      <div class="chips">
+        <div class="chip on">🐘 Elephant</div>
+        <div class="chip" onclick="tog(this)">🦁 Lion</div>
+        <div class="chip" onclick="tog(this)">🐒 Monkey</div>
+        <div class="chip" onclick="tog(this)">🦚 Peacock</div>
+        <div class="chip" onclick="tog(this)">🐯 Tiger</div>
+        <div class="chip" onclick="tog(this)">🐇 Rabbit</div>
+        <div class="chip" onclick="tog(this)">🦋 Butterfly</div>
+        <div class="chip" onclick="tog(this)">🐬 Dolphin</div>
+      </div>
+    </div>
+
+    <div class="input-wrap">
+      <label class="input-label">Favourite place</label>
+      <div class="chips">
+        <div class="chip on">🌳 Park</div>
+        <div class="chip" onclick="tog(this)">🏠 Home</div>
+        <div class="chip" onclick="tog(this)">🏬 Mall</div>
+        <div class="chip" onclick="tog(this)">🏖 Beach</div>
+        <div class="chip" onclick="tog(this)">🏫 School</div>
+        <div class="chip" onclick="tog(this)">⛰ Mountains</div>
+        <div class="chip" onclick="tog(this)">🌊 Ocean</div>
+      </div>
+    </div>
+
+    <!-- Custom favourites -->
+    <div class="input-wrap" style="margin-bottom:8px">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px">
+        <label class="input-label" style="margin-bottom:0">More favourites</label>
+        <span id="favCount" style="font-size:11px; color:var(--text-tertiary)">2 / 5</span>
+      </div>
+
+      <div id="favList">
+        <!-- pre-populated examples -->
+        <div class="fav-row">
+          <span style="font-size:16px">🍕</span>
+          <div class="fav-divider"></div>
+          <input placeholder="Category" value="Food" style="max-width:80px">
+          <div class="fav-divider"></div>
+          <input placeholder="Favourite" value="Pizza">
+          <button class="fav-remove" onclick="removeFav(this)">×</button>
+        </div>
+        <div class="fav-row">
+          <span style="font-size:16px">👗</span>
+          <div class="fav-divider"></div>
+          <input placeholder="Category" value="Dress" style="max-width:80px">
+          <div class="fav-divider"></div>
+          <input placeholder="Favourite" value="Purple frock">
+          <button class="fav-remove" onclick="removeFav(this)">×</button>
+        </div>
+      </div>
+
+      <button id="addFavBtn" onclick="addFav()" style="width:100%; padding:11px; border:1px dashed var(--border-strong); border-radius:var(--radius-md); background:none; color:var(--text-secondary); font-size:13px; cursor:pointer; margin-top:4px; font-family:inherit">
+        ＋ Add a favourite (sport, colour, toy…)
+      </button>
+    </div>
+
+    <div class="gap-xl"></div>
+  </div>
+  <div class="ob-footer">
+    <button class="btn-cta" onclick="go('s-ob4')">Continue</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     S5 · ONBOARDING 4 — Story Style
+══════════════════════════════════════════════ -->
+<div class="screen ob-screen" id="s-ob4">
+  <div class="status"><span>9:41</span><span style="opacity:.6">●●●●</span></div>
+  <div class="ob-nav">
+    <button class="btn-ghost" onclick="go('s-ob3')">‹ Back</button>
+    <button class="btn-ghost" style="font-size:13px" onclick="go('s-home')">Skip</button>
+  </div>
+  <div class="ob-progress">
+    <div class="ob-dot on"></div><div class="ob-dot on"></div>
+    <div class="ob-dot on"></div><div class="ob-dot on"></div>
+  </div>
+  <div class="ob-content">
+    <div class="gap-lg"></div>
+    <div style="font-size:44px; margin-bottom:16px">🎭</div>
+    <div class="t-display" style="margin-bottom:8px">Story style</div>
+    <div class="t-body" style="margin-bottom:24px">Pick your defaults. Change any night before the story begins.</div>
+
+    <div class="input-wrap">
+      <label class="input-label">Genre</label>
+      <div class="chips">
+        <div class="chip on">Mythology</div>
+        <div class="chip on">Adventure</div>
+        <div class="chip" onclick="tog(this)">Comedy</div>
+        <div class="chip" onclick="tog(this)">Moral</div>
+        <div class="chip" onclick="tog(this)">Science</div>
+        <div class="chip" onclick="tog(this)">Panchatantra</div>
+      </div>
+    </div>
+
+    <div class="input-wrap">
+      <label class="input-label">Story universe</label>
+      <div class="chips">
+        <div class="chip on">Ramayana / Mahabharata</div>
+        <div class="chip" onclick="tog(this)">Fairy Tales</div>
+        <div class="chip" onclick="tog(this)">Marvel / DC</div>
+        <div class="chip" onclick="tog(this)">Cartoon Fun</div>
+        <div class="chip" onclick="tog(this)">Fables &amp; Folklore</div>
+      </div>
+    </div>
+
+    <div class="input-wrap">
+      <label class="input-label">Story length</label>
+      <div class="chips">
+        <div class="chip" onclick="tog(this)">3 min</div>
+        <div class="chip on">5 min</div>
+        <div class="chip" onclick="tog(this)">8 min</div>
+        <div class="chip" onclick="tog(this)">15 min</div>
+        <div class="chip" onclick="tog(this)">30 min</div>
+      </div>
+    </div>
+
+    <div class="input-wrap">
+      <label class="input-label">Delivery</label>
+      <div class="chips">
+        <div class="chip" onclick="tog(this)">Read myself</div>
+        <div class="chip on">Voice narration</div>
+        <div class="chip" onclick="tog(this)">Choose each night</div>
+      </div>
+    </div>
+
+    <!-- Special Story Mode -->
+    <div class="input-wrap">
+      <label class="input-label" style="margin-bottom:3px">✨ Special story mode</label>
+      <div style="font-size:11px; color:var(--text-tertiary); margin-bottom:8px">Gentle sleep psychology woven into the narrative</div>
+      <div class="chips">
+        <div class="chip special" onclick="togSpecial(this)">🌙 Drift to Sleep</div>
+        <div class="chip special" onclick="togSpecial(this)">🌈 Spark Wonder</div>
+        <div class="chip special" onclick="togSpecial(this)">💡 Moral Moment</div>
+        <div class="chip special" onclick="togSpecial(this)">🦷 Brush Teeth</div>
+        <div class="chip special" onclick="togSpecial(this)">🛁 Bath Time</div>
+        <div class="chip special" onclick="togSpecial(this)">🥗 Eat Well</div>
+        <div class="chip special" onclick="togSpecial(this)">🧹 Tidy Up</div>
+        <div class="chip special" onclick="togSpecial(this)">⏰ Be on Time</div>
+      </div>
+    </div>
+
+    <div class="gap-xl"></div>
+  </div>
+  <div class="ob-footer">
+    <button class="btn-cta" onclick="go('s-pricing')">See Plans →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     S6 · PRICING
+══════════════════════════════════════════════ -->
+<div class="screen ob-screen" id="s-pricing">
+  <div class="status"><span>9:41</span><span style="opacity:.6">●●●●</span></div>
+  <div style="padding:10px 20px 0; display:flex; justify-content:space-between; align-items:center; flex-shrink:0">
+    <button class="btn-ghost" onclick="go('s-ob4')">‹ Back</button>
+    <button class="btn-ghost" style="font-size:13px; color:var(--gold)" onclick="go('s-home')">Skip for now</button>
+  </div>
+  <div class="scroll" style="flex:1; padding:20px 24px 0">
+
+    <div class="t-title" style="margin-bottom:4px">Choose your plan</div>
+    <div class="t-body" style="font-size:13px; margin-bottom:16px">7 nights free · No card required</div>
+
+    <!-- Country detection banner -->
+    <div style="display:flex; align-items:center; gap:8px; background:var(--bg-2); border:1px solid var(--border); border-radius:var(--radius-md); padding:10px 14px; margin-bottom:16px">
+      <span style="font-size:16px">🇮🇳</span>
+      <div>
+        <div style="font-size:12px; font-weight:600; color:var(--text-primary)">Auto-detected: India · ₹ · PPP pricing</div>
+        <div style="font-size:10px; color:var(--text-tertiary)">Prices are purchasing-power adjusted for your region</div>
+      </div>
+      <span style="font-size:11px; color:var(--gold); margin-left:auto; cursor:pointer">Change</span>
+    </div>
+
+    <!-- Plan type tabs -->
+    <div class="plan-tabs">
+      <button id="tab1p" class="plan-tab on" onclick="switchPlan('1p')">1 Parent</button>
+      <button id="tab2p" class="plan-tab off" onclick="switchPlan('2p')">2 Parents</button>
+    </div>
+
+    <!-- 1-Parent plans -->
+    <div id="plans-1p">
+      <div class="plan-card featured">
+        <div class="plan-badge">⭐ BEST VALUE · SAVE 38%</div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-top:8px">
+          <div>
+            <div class="t-heading">Annual Plan</div>
+            <div style="font-size:13px; color:var(--text-secondary); margin-top:2px">₹83 / month billed yearly</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:26px; font-weight:800; color:var(--gold)">₹999</div>
+            <div style="font-size:11px; color:var(--text-tertiary)">/year</div>
+          </div>
+        </div>
+        <div class="hr"></div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:16px">
+          <div style="font-size:12px; color:var(--text-secondary)">✓ 2 child profiles</div>
+          <div style="font-size:12px; color:var(--text-secondary)">✓ Unlimited stories</div>
+          <div style="font-size:12px; color:var(--text-secondary)">✓ Voice narration</div>
+          <div style="font-size:12px; color:var(--text-secondary)">✓ Offline access</div>
+        </div>
+        <button class="btn-cta" onclick="go('s-home')">Start Free Trial →</button>
+      </div>
+
+      <div class="plan-card">
+        <div style="display:flex; justify-content:space-between; align-items:center">
+          <div>
+            <div class="t-heading">Monthly Plan</div>
+            <div style="font-size:12px; color:var(--text-secondary); margin-top:3px">2 children · Voice · Unlimited</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:22px; font-weight:700; color:var(--text-primary)">₹134</div>
+            <div style="font-size:11px; color:var(--text-tertiary)">/month</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2-Parent plans (hidden by default) -->
+    <div id="plans-2p" style="display:none">
+      <div class="plan-card featured">
+        <div class="plan-badge">⭐ BEST VALUE · SAVE 35%</div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-top:8px">
+          <div>
+            <div class="t-heading">Family Annual</div>
+            <div style="font-size:13px; color:var(--text-secondary); margin-top:2px">₹125 / month billed yearly</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:26px; font-weight:800; color:var(--gold)">₹1,499</div>
+            <div style="font-size:11px; color:var(--text-tertiary)">/year</div>
+          </div>
+        </div>
+        <div class="hr"></div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:16px">
+          <div style="font-size:12px; color:var(--text-secondary)">✓ Both parents access</div>
+          <div style="font-size:12px; color:var(--text-secondary)">✓ 2 child profiles</div>
+          <div style="font-size:12px; color:var(--text-secondary)">✓ Voice narration</div>
+          <div style="font-size:12px; color:var(--text-secondary)">✓ Offline access</div>
+        </div>
+        <button class="btn-cta" onclick="go('s-home')">Start Free Trial →</button>
+      </div>
+
+      <div class="plan-card">
+        <div style="display:flex; justify-content:space-between; align-items:center">
+          <div>
+            <div class="t-heading">Family Monthly</div>
+            <div style="font-size:12px; color:var(--text-secondary); margin-top:3px">Both parents · 2 children · Voice</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:22px; font-weight:700; color:var(--text-primary)">₹199</div>
+            <div style="font-size:11px; color:var(--text-tertiary)">/month</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gift subscription — prominent -->
+    <div class="gift-banner" style="margin-bottom:12px" onclick="go('s-home')">
+      <div style="font-size:32px; animation:float 3s ease-in-out infinite; display:inline-block">🎁</div>
+      <div style="flex:1">
+        <div style="font-size:14px; font-weight:700; color:var(--gold); margin-bottom:2px">Gift JoJo to a loved one</div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.4">No setup. They just open and read. Perfect for grandparents gifting grandkids.</div>
+        <div style="font-size:12px; color:var(--gold); margin-top:6px; font-weight:700">₹499 · 3 months &nbsp;›</div>
+      </div>
+    </div>
+
+    <div class="t-caption" style="text-align:center; margin:12px 0 28px">
+      Prices include GST &nbsp;·&nbsp; Cancel anytime<br>
+      <span style="color:var(--gold-dim)">≈ $4.99–$8.99 · PPP-fair for every country</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     S7 · HOME
+══════════════════════════════════════════════ -->
+<div class="screen" id="s-home" style="background:var(--bg-base)">
+  <div class="status">
+    <span>9:41</span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span style="background:rgba(255,149,0,0.2);color:#FF9500;font-size:10px;font-weight:800;padding:3px 8px;border-radius:10px">🔥 4</span>
+      <span style="opacity:.6">📶 🔋</span>
+    </span>
+  </div>
+
+  <div style="padding:8px 24px 0; display:flex; justify-content:space-between; align-items:center; flex-shrink:0">
+    <div>
+      <div style="font-size:13px; color:var(--text-secondary)">Good evening</div>
+      <div class="t-title">Priya 🌙</div>
+    </div>
+    <button class="btn-icon" onclick="go('s-settings')" style="font-size:18px">⚙</button>
+  </div>
+
+  <!-- Child tabs — max 2 -->
+  <div style="padding:14px 24px 0; flex-shrink:0">
+    <div style="display:flex; gap:8px">
+      <div style="flex:1.2; padding:11px 12px; border-radius:var(--radius-md); background:var(--gold); cursor:pointer">
+        <div style="font-size:16px">👧</div>
+        <div style="font-size:13px; font-weight:700; color:#1A1000; margin-top:2px">Arya</div>
+        <div style="font-size:10px; color:rgba(26,16,0,0.6)">Age 7</div>
+      </div>
+      <div style="flex:1; padding:11px 12px; border-radius:var(--radius-md); background:var(--bg-2); border:1px solid var(--border); cursor:pointer">
+        <div style="font-size:16px">👦</div>
+        <div style="font-size:13px; font-weight:600; color:var(--text-primary); margin-top:2px">Dev</div>
+        <div style="font-size:10px; color:var(--text-tertiary)">Age 4</div>
+      </div>
+      <!-- No add child — max 2 profiles shown -->
+    </div>
+  </div>
+
+  <!-- Scrollable content -->
+  <div class="scroll" style="flex:1; padding:18px 24px 0">
+
+    <!-- Tonight's story -->
+    <div class="t-label" style="margin-bottom:12px">Tonight's story for Arya</div>
+    <div class="story-hero-card" onclick="go('s-gen')">
+      <div class="story-hero-img" style="background:radial-gradient(ellipse at 40% 40%, #2A1A06, #0A0704)">
+        🏔️
+        <div class="story-hero-gradient"></div>
+      </div>
+      <div class="story-hero-info">
+        <div style="display:flex; gap:6px; margin-bottom:10px">
+          <div class="badge badge-gold">🏹 Ramayana</div>
+          <div class="badge badge-moon">5 min</div>
+          <div class="badge" style="background:rgba(180,120,240,0.12); color:#C896F0; font-size:10px; font-weight:700; padding:4px 8px; border-radius:20px">🌙 Drift to Sleep</div>
+        </div>
+        <div class="t-heading" style="margin-bottom:6px; font-size:19px; line-height:1.3">Arya and the Lost Kingdom of Kishkindha</div>
+        <div style="font-size:13px; color:var(--text-secondary); margin-bottom:16px; line-height:1.5">Arya joins Hanuman on an epic quest to restore light to the monkey kingdom.</div>
+        <div style="display:flex; gap:10px">
+          <button style="flex:1; padding:13px; border-radius:var(--radius-md); background:var(--gold); border:none; color:#1A1000; font-size:15px; font-weight:800; cursor:pointer">▶  Begin Story</button>
+          <button class="btn-icon" style="width:46px; height:46px; font-size:18px">⇄</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick change -->
+    <div style="display:flex; gap:8px; margin-top:12px">
+      <div style="flex:1; padding:11px 10px; border-radius:var(--radius-md); background:var(--bg-2); border:1px solid var(--border); text-align:center; cursor:pointer">
+        <div style="font-size:18px">🎭</div>
+        <div style="font-size:10px; color:var(--text-secondary); margin-top:3px; font-weight:600">Genre</div>
+      </div>
+      <div style="flex:1; padding:11px 10px; border-radius:var(--radius-md); background:var(--bg-2); border:1px solid var(--border); text-align:center; cursor:pointer">
+        <div style="font-size:18px">📜</div>
+        <div style="font-size:10px; color:var(--text-secondary); margin-top:3px; font-weight:600">Universe</div>
+      </div>
+      <div style="flex:1; padding:11px 10px; border-radius:var(--radius-md); background:var(--bg-2); border:1px solid var(--border); text-align:center; cursor:pointer">
+        <div style="font-size:18px">⏱</div>
+        <div style="font-size:10px; color:var(--text-secondary); margin-top:3px; font-weight:600">Duration</div>
+      </div>
+      <div style="flex:1; padding:11px 10px; border-radius:var(--radius-md); background:var(--bg-2); border:1px solid rgba(180,120,240,0.25); text-align:center; cursor:pointer">
+        <div style="font-size:18px">✨</div>
+        <div style="font-size:10px; color:#C896F0; margin-top:3px; font-weight:600">Mode</div>
+      </div>
+    </div>
+
+    <!-- Gift JoJo banner -->
+    <div class="gift-banner" style="margin-top:18px" onclick="go('s-pricing')">
+      <div style="font-size:28px; animation:float 3s ease-in-out infinite; display:inline-block">🎁</div>
+      <div style="flex:1">
+        <div style="font-size:13px; font-weight:700; color:var(--gold)">Gift JoJo to someone you love</div>
+        <div style="font-size:11px; color:var(--text-secondary); margin-top:2px">₹499 for 3 months · No setup needed</div>
+      </div>
+      <span style="font-size:16px; color:var(--gold)">›</span>
+    </div>
+
+    <!-- Saved stories -->
+    <div style="display:flex; justify-content:space-between; align-items:center; margin:20px 0 12px">
+      <div class="t-label">Saved stories</div>
+      <button class="btn-ghost" style="font-size:12px; color:var(--gold); padding:4px 0" onclick="go('s-library')">See all →</button>
+    </div>
+    <div style="display:flex; gap:10px; overflow-x:auto; scrollbar-width:none; padding-bottom:4px">
+      <div style="min-width:110px; background:var(--bg-2); border:1px solid var(--border); border-radius:var(--radius-md); overflow:hidden; cursor:pointer" onclick="go('s-story')">
+        <div style="height:64px; background:radial-gradient(ellipse,#2A1A06,#080604); display:flex; align-items:center; justify-content:center; font-size:28px">🦂</div>
+        <div style="padding:8px">
+          <div style="font-size:11px; font-weight:700; color:var(--text-primary); line-height:1.3">Arya & the Scorpion King</div>
+          <div style="font-size:10px; color:var(--gold); margin-top:3px">★★★★★</div>
+        </div>
+      </div>
+      <div style="min-width:110px; background:var(--bg-2); border:1px solid var(--border); border-radius:var(--radius-md); overflow:hidden; cursor:pointer">
+        <div style="height:64px; background:radial-gradient(ellipse,#0A1A0A,#040806); display:flex; align-items:center; justify-content:center; font-size:28px">🌳</div>
+        <div style="padding:8px">
+          <div style="font-size:11px; font-weight:700; color:var(--text-primary); line-height:1.3">Arya in the Enchanted Forest</div>
+          <div style="font-size:10px; color:var(--gold); margin-top:3px">★★★★★</div>
+        </div>
+      </div>
+      <div style="min-width:110px; background:var(--bg-2); border:1px solid var(--border); border-radius:var(--radius-md); overflow:hidden; cursor:pointer">
+        <div style="height:64px; background:radial-gradient(ellipse,#0A0A2A,#040408); display:flex; align-items:center; justify-content:center; font-size:28px">🦸</div>
+        <div style="padding:8px">
+          <div style="font-size:11px; font-weight:700; color:var(--text-primary); line-height:1.3">Arya vs. The Shadow Titan</div>
+          <div style="font-size:10px; color:var(--gold); margin-top:3px">★★★★☆</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:24px"></div>
+  </div>
+
+  <div class="bottom-nav">
+    <button class="nav-btn on"><span class="nav-icon">⌂</span><span class="nav-lbl">Home</span></button>
+    <button class="nav-btn" onclick="go('s-library')"><span class="nav-icon">📚</span><span class="nav-lbl">Library</span></button>
+    <button class="nav-btn" onclick="go('s-pricing')"><span class="nav-icon">✦</span><span class="nav-lbl">Plans</span></button>
+    <button class="nav-btn" onclick="go('s-settings')"><span class="nav-icon">⚙</span><span class="nav-lbl">Settings</span></button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     S8 · GENERATING
+══════════════════════════════════════════════ -->
+<div class="screen gen-screen" id="s-gen">
+  <div style="text-align:center; padding:48px 32px; position:relative; z-index:2; margin:auto">
+    <div style="position:relative; width:90px; height:90px; margin:0 auto 32px">
+      <div class="gen-ring"></div>
+      <div class="gen-inner" style="position:absolute; top:10px; left:10px"></div>
+      <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:32px">📜</div>
+    </div>
+    <div class="t-heading pulse" style="margin-bottom:8px">Weaving Arya's story…</div>
+    <div class="t-body" style="font-size:14px; margin-bottom:32px">Placing her at the heart<br>of Kishkindha kingdom</div>
+    <div style="display:flex; flex-direction:column; gap:9px; text-align:left; background:var(--bg-2); border:1px solid var(--border); border-radius:var(--radius-md); padding:16px">
+      <div style="font-size:12px; color:var(--text-secondary)"><span style="color:var(--gold)">✓</span> &nbsp;Selecting Ramayana template</div>
+      <div style="font-size:12px; color:var(--text-secondary)"><span style="color:var(--gold)">✓</span> &nbsp;Weaving in Arya · Rohan · elephant</div>
+      <div style="font-size:12px; color:var(--text-secondary)" class="pulse"><span style="color:var(--gold-dim)">◌</span> &nbsp;Adding Drift-to-Sleep pacing…</div>
+      <div style="font-size:12px; color:var(--text-tertiary)"><span style="color:var(--text-tertiary)">◌</span> &nbsp;Preparing voice narration</div>
+    </div>
+    <button class="btn-outline" style="margin-top:28px; width:auto; padding:11px 28px; font-size:14px" onclick="go('s-story')">Read now →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     S9 · STORY
+══════════════════════════════════════════════ -->
+<div class="screen story-screen-bg" id="s-story">
+
+  <div class="story-header">
+    <button class="btn-icon" style="background:rgba(0,0,0,0.4); border-color:rgba(255,255,255,0.1)" onclick="go('s-home')">‹</button>
+    <div style="display:flex; gap:6px">
+      <div class="badge badge-gold">🏹 Ramayana</div>
+      <div class="badge badge-moon">5 min</div>
+    </div>
+    <button class="btn-icon" style="background:rgba(0,0,0,0.4); border-color:rgba(255,255,255,0.1)">⋯</button>
+  </div>
+
+  <div class="scroll" style="flex:1">
+    <div class="story-art">
+      🏔️
+      <div class="story-art-glow"></div>
+    </div>
+
+    <div style="padding:22px 22px 0">
+      <div style="display:flex; gap:12px; flex-wrap:wrap; padding:10px 12px; background:var(--bg-2); border:1px solid var(--border); border-radius:var(--radius-sm); margin-bottom:20px">
+        <span style="font-size:11px; color:var(--text-tertiary)">
+          <span class="hl-h">Arya</span> &nbsp;
+          <span class="hl-s">Rohan</span> &nbsp;
+          <span class="hl-p">Priya Mamma</span>
+        </span>
+      </div>
+
+      <div class="t-title" style="margin-bottom:22px; font-size:20px; line-height:1.35">
+        <span class="hl-h">Arya</span> and the Lost Kingdom of Kishkindha
+      </div>
+
+      <div class="story-text">
+        <p>In the golden age of heroes, when stars shone warm and kind over all the world, there lived a young warrior named <span class="hl-h">Arya</span>. <span class="hl-h">Arya</span> was known across the land for her bravery — the quiet, steady kind that made even lions bow their heads.</p>
+        <p>One moonlit evening, her best friend <span class="hl-s">Rohan</span> came running through the mango grove. "<span class="hl-h">Arya</span>! <span class="hl-h">Arya</span>!" <span class="hl-s">Rohan</span> cried. "The elephant Gajendra has been captured! The kingdom of Kishkindha is in darkness!"</p>
+        <p><span class="hl-h">Arya</span> placed a steady hand on <span class="hl-s">Rohan</span>'s shoulder and remembered what <span class="hl-p">Priya Mamma</span> always whispered at bedtime: <em style="color:var(--gold)">"The brave don't wait for danger to pass — they walk toward it with a kind heart."</em></p>
+        <p>Together they journeyed through the forest of a hundred banyan trees, until the great Hanuman appeared — as tall as a mountain, fur gleaming like sunrise.</p>
+        <p>"I have heard of this young warrior," Hanuman said, looking at <span class="hl-h">Arya</span>. "Is it true you face any challenge without fear?" <span class="hl-h">Arya</span> didn't boast. She simply said, "I will try my best." That honest answer was all Hanuman needed.</p>
+        <p><span class="hl-h">Arya</span> noticed something no warrior had seen — Gajendra was pressing her great trunk against a stone wall, searching for a hidden door. On the twenty-first brick, <span class="hl-h">Arya</span> pushed — and a secret passage swung open, flooding the kingdom with golden light.</p>
+        <p>Hanuman lifted <span class="hl-h">Arya</span> onto his shoulder. "Today, <span class="hl-h">Arya</span> teaches us the greatest lesson: true bravery is seeing what others miss — and acting with both courage and kindness."</p>
+        <p>That night, <span class="hl-h">Arya</span> sat with <span class="hl-s">Rohan</span> under the stars, her eyes growing heavy and soft. And somewhere, <span class="hl-p">Priya Mamma</span> smiled — because her brave hero was gently, peacefully, drifting off to sleep. ✦</p>
+      </div>
+
+      <div class="moral-card">
+        <div class="t-label" style="margin-bottom:6px; color:var(--gold-dim)">Tonight's wisdom</div>
+        <div style="font-size:14px; color:var(--text-secondary); font-style:italic; line-height:1.6">"True bravery is noticing what others overlook — and acting with courage and kindness."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="audio-bar">
+    <div class="audio-time"><span>1:52</span><span>5:00</span></div>
+    <div class="audio-progress"><div class="audio-fill"></div></div>
+    <div class="audio-controls">
+      <div class="audio-side-btn">⏮</div>
+      <div class="audio-side-btn">◀15</div>
+      <button class="audio-play" id="playBtn" onclick="togglePlay()">▶</button>
+      <div class="audio-side-btn">15▶</div>
+      <div class="speed-btn">1×</div>
+      <button class="btn-ghost" style="font-size:13px; color:var(--gold)" onclick="go('s-end')">Done ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     S10 · STORY END
+══════════════════════════════════════════════ -->
+<div class="screen" id="s-end" style="background:var(--bg-base); justify-content:center; align-items:center; position:relative">
+  <div class="end-stars" id="endStars"></div>
+
+  <div style="text-align:center; padding:28px; width:100%; position:relative; z-index:2">
+    <div style="font-size:64px; margin-bottom:6px" class="float">🌙</div>
+    <div class="t-title" style="margin-bottom:4px">The End</div>
+    <div style="font-size:24px; letter-spacing:4px; color:var(--gold); margin-bottom:6px">✦ ✦ ✦</div>
+    <div class="t-body" style="margin-bottom:24px; font-size:14px">Did Arya enjoy tonight's story?</div>
+
+    <div style="display:flex; justify-content:center; gap:10px; margin-bottom:28px" id="starRow">
+      <span class="star" onclick="rate(1)" style="font-size:36px; cursor:pointer; transition:transform .15s">☆</span>
+      <span class="star" onclick="rate(2)" style="font-size:36px; cursor:pointer; transition:transform .15s">☆</span>
+      <span class="star" onclick="rate(3)" style="font-size:36px; cursor:pointer; transition:transform .15s">☆</span>
+      <span class="star" onclick="rate(4)" style="font-size:36px; cursor:pointer; transition:transform .15s">☆</span>
+      <span class="star" onclick="rate(5)" style="font-size:36px; cursor:pointer; transition:transform .15s">☆</span>
+    </div>
+
+    <button class="btn-cta" style="margin-bottom:10px" onclick="saveStory()">💾 Save to Library</button>
+    <button class="btn-outline" style="margin-bottom:14px" onclick="go('s-gen')">↺ New Story for Arya</button>
+
+    <!-- Gift nudge at story end -->
+    <div class="gift-banner" style="margin-bottom:16px; text-align:left" onclick="go('s-pricing')">
+      <div style="font-size:22px">🎁</div>
+      <div style="flex:1">
+        <div style="font-size:12px; font-weight:700; color:var(--gold)">Loved this story?</div>
+        <div style="font-size:11px; color:var(--text-secondary)">Gift JoJo to a friend's child</div>
+      </div>
+      <span style="font-size:13px; color:var(--gold)">›</span>
+    </div>
+
+    <div class="hr"></div>
+    <div class="t-caption" style="margin:12px 0 10px">Share this moment</div>
+    <div style="background:var(--bg-2); border:1px solid var(--border); border-radius:var(--radius-md); padding:12px; margin-bottom:14px; text-align:left">
+      <div style="font-size:10px; color:var(--text-tertiary); margin-bottom:6px">Story card preview</div>
+      <div style="background:linear-gradient(135deg,#1A1208,#0A0805); border-radius:var(--radius-sm); padding:12px">
+        <div style="font-size:10px; color:var(--gold-dim); margin-bottom:4px">✦ JoJo — Sweet Dream Stories</div>
+        <div style="font-size:13px; font-weight:700; color:var(--text-primary); margin-bottom:4px">Arya and the Lost Kingdom of Kishkindha</div>
+        <div style="font-size:10px; color:var(--text-secondary)">Personalized bedtime story · Tonight ✦</div>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:8px; justify-content:center">
+      <button class="btn-outline" style="width:auto; padding:10px 16px; font-size:12px">💬 WhatsApp</button>
+      <button class="btn-outline" style="width:auto; padding:10px 16px; font-size:12px">📷 Instagram</button>
+      <button class="btn-outline" style="width:auto; padding:10px 16px; font-size:12px">🔗 Copy</button>
+    </div>
+
+    <div style="margin-top:16px">
+      <button class="btn-ghost" style="color:var(--gold); font-size:14px" onclick="go('s-home')">← Back to Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     S11 · LIBRARY
+══════════════════════════════════════════════ -->
+<div class="screen" id="s-library" style="background:var(--bg-base)">
+  <div class="status"><span>9:41</span><span style="opacity:.6">📶 🔋</span></div>
+  <div style="padding:8px 24px 14px; flex-shrink:0">
+    <div class="t-title">Library</div>
+    <div class="t-body" style="font-size:13px; margin-top:2px">Arya has lived <strong style="color:var(--gold)">12 adventures</strong></div>
+  </div>
+  <div style="padding:0 24px 10px; flex-shrink:0">
+    <div style="display:flex; gap:8px; overflow-x:auto; scrollbar-width:none">
+      <div class="chip on" style="white-space:nowrap">All</div>
+      <div class="chip" onclick="tog(this)" style="white-space:nowrap">Ramayana</div>
+      <div class="chip" onclick="tog(this)" style="white-space:nowrap">Panchatantra</div>
+      <div class="chip" onclick="tog(this)" style="white-space:nowrap">Marvel / DC</div>
+      <div class="chip" onclick="tog(this)" style="white-space:nowrap">Fairy Tales</div>
+      <div class="chip" onclick="tog(this)" style="white-space:nowrap">Adventure</div>
+    </div>
+  </div>
+  <div class="scroll" style="flex:1; padding:0 24px">
+    <div class="lib-grid">
+      <div class="lib-card" onclick="go('s-story')">
+        <div class="lib-art" style="background:radial-gradient(ellipse,#2A1A06,#060402)">🏔️</div>
+        <div class="lib-info">
+          <div style="font-size:12px; font-weight:700; color:var(--text-primary); line-height:1.3">Arya & the Lost Kingdom</div>
+          <div style="font-size:10px; color:var(--text-tertiary); margin-top:2px">Ramayana · 5 min</div>
+          <div style="font-size:11px; color:var(--gold); margin-top:3px">★★★★★</div>
+        </div>
+      </div>
+      <div class="lib-card">
+        <div class="lib-art" style="background:radial-gradient(ellipse,#2A0606,#060202)">🦂</div>
+        <div class="lib-info">
+          <div style="font-size:12px; font-weight:700; color:var(--text-primary); line-height:1.3">Arya & the Scorpion King</div>
+          <div style="font-size:10px; color:var(--text-tertiary); margin-top:2px">Adventure · 5 min</div>
+          <div style="font-size:11px; color:var(--gold); margin-top:3px">★★★★☆</div>
+        </div>
+      </div>
+      <div class="lib-card">
+        <div class="lib-art" style="background:radial-gradient(ellipse,#062A06,#020602)">🌳</div>
+        <div class="lib-info">
+          <div style="font-size:12px; font-weight:700; color:var(--text-primary); line-height:1.3">Arya in the Enchanted Forest</div>
+          <div style="font-size:10px; color:var(--text-tertiary); margin-top:2px">Panchatantra · 3 min</div>
+          <div style="font-size:11px; color:var(--gold); margin-top:3px">★★★★★</div>
+        </div>
+      </div>
+      <div class="lib-card">
+        <div class="lib-art" style="background:radial-gradient(ellipse,#0A0A2A,#020208)">🦸</div>
+        <div class="lib-info">
+          <div style="font-size:12px; font-weight:700; color:var(--text-primary); line-height:1.3">Arya vs. The Shadow Titan</div>
+          <div style="font-size:10px; color:var(--text-tertiary); margin-top:2px">Marvel / DC · 8 min</div>
+          <div style="font-size:11px; color:var(--gold); margin-top:3px">★★★★★</div>
+        </div>
+      </div>
+      <div class="lib-card">
+        <div class="lib-art" style="background:radial-gradient(ellipse,#2A1A2A,#060206)">🌙</div>
+        <div class="lib-info">
+          <div style="font-size:12px; font-weight:700; color:var(--text-primary); line-height:1.3">Arya Meets the Moon Fairy</div>
+          <div style="font-size:10px; color:var(--text-tertiary); margin-top:2px">Mythology · 8 min</div>
+          <div style="font-size:11px; color:var(--gold); margin-top:3px">★★★★★</div>
+        </div>
+      </div>
+      <div class="lib-card">
+        <div class="lib-art" style="background:radial-gradient(ellipse,#1A1A06,#040402)">🦅</div>
+        <div class="lib-info">
+          <div style="font-size:12px; font-weight:700; color:var(--text-primary); line-height:1.3">Arya & the Golden Eagle</div>
+          <div style="font-size:10px; color:var(--text-tertiary); margin-top:2px">Ramayana · 5 min</div>
+          <div style="font-size:11px; color:var(--gold); margin-top:3px">★★★★★</div>
+        </div>
+      </div>
+    </div>
+    <div style="height:20px"></div>
+  </div>
+  <div class="bottom-nav">
+    <button class="nav-btn" onclick="go('s-home')"><span class="nav-icon">⌂</span><span class="nav-lbl">Home</span></button>
+    <button class="nav-btn on"><span class="nav-icon">📚</span><span class="nav-lbl">Library</span></button>
+    <button class="nav-btn" onclick="go('s-pricing')"><span class="nav-icon">✦</span><span class="nav-lbl">Plans</span></button>
+    <button class="nav-btn" onclick="go('s-settings')"><span class="nav-icon">⚙</span><span class="nav-lbl">Settings</span></button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     S12 · SETTINGS
+══════════════════════════════════════════════ -->
+<div class="screen" id="s-settings" style="background:var(--bg-base)">
+  <div class="status"><span>9:41</span><span style="opacity:.6">📶 🔋</span></div>
+  <div style="padding:8px 24px 16px; flex-shrink:0">
+    <div class="t-title">Settings</div>
+  </div>
+  <div class="scroll" style="flex:1; padding:0 24px">
+
+    <div style="display:flex; align-items:center; gap:14px; padding:16px; background:var(--bg-2); border:1px solid var(--border); border-radius:var(--radius-lg); margin-bottom:20px">
+      <div class="settings-avatar">P</div>
+      <div>
+        <div class="t-heading">Priya Krishnaswamy</div>
+        <div class="t-body" style="font-size:12px">priya@gmail.com</div>
+      </div>
+    </div>
+
+    <div class="t-label" style="margin-bottom:10px">Subscription</div>
+    <div class="card" style="margin-bottom:20px; padding:0">
+      <div class="card-row">
+        <div>
+          <div class="t-heading" style="font-size:15px">Family Annual · 2 Parents</div>
+          <div class="t-body" style="font-size:12px">Renews 18 April 2027</div>
+        </div>
+        <div class="badge badge-green">Active</div>
+      </div>
+      <div class="card-row">
+        <div class="t-body" style="font-size:14px">Payment — UPI</div>
+        <span style="color:var(--gold); font-size:13px">Change ›</span>
+      </div>
+      <div class="card-row" style="border-bottom:none">
+        <div class="t-body" style="font-size:14px; color:#FF453A">Cancel subscription</div>
+        <span style="color:#FF453A; font-size:13px">›</span>
+      </div>
+    </div>
+
+    <div class="t-label" style="margin-bottom:10px">Notifications</div>
+    <div class="card" style="margin-bottom:20px; padding:0">
+      <div class="card-row">
+        <div>
+          <div class="t-heading" style="font-size:15px">Bedtime reminder</div>
+          <div class="t-body" style="font-size:12px">Arya · 8:00 PM daily</div>
+        </div>
+        <div class="toggle"><div class="toggle-knob"></div></div>
+      </div>
+      <div class="card-row" style="border-bottom:none">
+        <div>
+          <div class="t-heading" style="font-size:15px">Festival &amp; seasonal stories</div>
+          <div class="t-body" style="font-size:12px">Diwali, Holi, Eid &amp; more</div>
+        </div>
+        <div class="toggle"><div class="toggle-knob"></div></div>
+      </div>
+    </div>
+
+    <div class="t-label" style="margin-bottom:10px">Voice Narration</div>
+    <div class="card" style="margin-bottom:20px; padding:0">
+      <div class="card-row">
+        <div class="t-heading" style="font-size:15px">Voice</div>
+        <span style="color:var(--gold); font-size:13px">Warm Female ›</span>
+      </div>
+      <div class="card-row" style="border-bottom:none">
+        <div class="t-heading" style="font-size:15px">Speed</div>
+        <span style="color:var(--gold); font-size:13px">1.0× ›</span>
+      </div>
+    </div>
+
+    <div class="t-label" style="margin-bottom:10px">Invite &amp; Earn</div>
+    <div style="background:rgba(240,192,64,0.06); border:1px solid rgba(240,192,64,0.18); border-radius:var(--radius-lg); padding:16px; margin-bottom:20px">
+      <div class="t-heading" style="margin-bottom:6px; font-size:15px">Invite friends, earn free months</div>
+      <div class="t-body" style="font-size:13px; margin-bottom:14px">Every friend who subscribes = 1 free month for you. They get 14 days free.</div>
+      <div style="display:flex; align-items:center; justify-content:space-between; background:var(--bg-2); border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px 14px">
+        <span style="font-size:14px; font-weight:700; color:var(--text-primary); letter-spacing:1px">PRIYA2024</span>
+        <span style="font-size:12px; color:var(--gold); cursor:pointer; font-weight:600">Copy</span>
+      </div>
+      <div class="t-caption" style="margin-top:8px; color:var(--text-tertiary)">1 friend joined · 1 free month earned ✓</div>
+    </div>
+
+    <div class="t-label" style="margin-bottom:10px">Feedback</div>
+    <div class="card" style="margin-bottom:32px; padding:0">
+      <div class="card-row">
+        <div class="t-heading" style="font-size:15px">Rate JoJo ⭐</div>
+        <span style="color:var(--text-tertiary); font-size:13px">›</span>
+      </div>
+      <div class="card-row">
+        <div class="t-heading" style="font-size:15px">Report a story issue</div>
+        <span style="color:var(--text-tertiary); font-size:13px">›</span>
+      </div>
+      <div class="card-row" style="border-bottom:none">
+        <div class="t-heading" style="font-size:15px">Suggest a story</div>
+        <span style="color:var(--text-tertiary); font-size:13px">›</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <button class="nav-btn" onclick="go('s-home')"><span class="nav-icon">⌂</span><span class="nav-lbl">Home</span></button>
+    <button class="nav-btn" onclick="go('s-library')"><span class="nav-icon">📚</span><span class="nav-lbl">Library</span></button>
+    <button class="nav-btn" onclick="go('s-pricing')"><span class="nav-icon">✦</span><span class="nav-lbl">Plans</span></button>
+    <button class="nav-btn on"><span class="nav-icon">⚙</span><span class="nav-lbl">Settings</span></button>
+  </div>
+</div>
+
+  </div><!-- phone-screen -->
+</div><!-- phone -->
+
+<script>
+// ── Navigation ──
+let cur = 's-welcome';
+function go(id) {
+  if (id === cur) return;
+  const from = document.getElementById(cur);
+  const to   = document.getElementById(id);
+  if (!to) return;
+  from.classList.add('exit');
+  from.classList.remove('active');
+  setTimeout(() => {
+    from.classList.remove('exit');
+    to.classList.add('active');
+    cur = id;
+    if (id === 's-gen') setTimeout(() => go('s-story'), 2800);
+  }, 320);
+}
+
+// ── Chip toggle ──
+function tog(el) {
+  const grp = el.closest('.chips');
+  if (!grp) return;
+  el.classList.toggle('on');
+}
+
+// ── Special chip toggle (purple accent) ──
+function togSpecial(el) {
+  el.classList.toggle('on');
+  el.classList.toggle('special');
+}
+
+// ── Pricing plan tabs ──
+function switchPlan(type) {
+  document.getElementById('tab1p').className = 'plan-tab ' + (type==='1p' ? 'on' : 'off');
+  document.getElementById('tab2p').className = 'plan-tab ' + (type==='2p' ? 'on' : 'off');
+  document.getElementById('plans-1p').style.display = type==='1p' ? 'block' : 'none';
+  document.getElementById('plans-2p').style.display = type==='2p' ? 'block' : 'none';
+}
+
+// ── Custom favourites ──
+const FAV_ICONS = ['🎨','⚽','🎵','🎮','🍦','🌈','🚀','🏄','📚','🐾'];
+let favCount = 2;
+function addFav() {
+  if (favCount >= 5) return;
+  favCount++;
+  updateFavCount();
+  const icon = FAV_ICONS[(favCount - 1) % FAV_ICONS.length];
+  const row = document.createElement('div');
+  row.className = 'fav-row';
+  row.innerHTML = `
+    <span style="font-size:16px">${icon}</span>
+    <div class="fav-divider"></div>
+    <input placeholder="Category" style="max-width:80px">
+    <div class="fav-divider"></div>
+    <input placeholder="Favourite">
+    <button class="fav-remove" onclick="removeFav(this)">×</button>
+  `;
+  document.getElementById('favList').appendChild(row);
+  if (favCount >= 5) document.getElementById('addFavBtn').style.display = 'none';
+}
+function removeFav(btn) {
+  btn.closest('.fav-row').remove();
+  favCount--;
+  updateFavCount();
+  document.getElementById('addFavBtn').style.display = favCount >= 5 ? 'none' : 'block';
+}
+function updateFavCount() {
+  document.getElementById('favCount').textContent = favCount + ' / 5';
+}
+
+// ── Star rating ──
+function rate(n) {
+  document.querySelectorAll('#starRow .star').forEach((s,i) => {
+    s.textContent = i < n ? '⭐' : '☆';
+    s.style.transform = i < n ? 'scale(1.1)' : 'scale(1)';
+  });
+}
+
+// ── Play toggle ──
+let playing = false;
+function togglePlay() {
+  playing = !playing;
+  document.getElementById('playBtn').textContent = playing ? '⏸' : '▶';
+}
+
+// ── Save story ──
+function saveStory() {
+  const b = event.currentTarget;
+  b.textContent = '✓ Saved to Library!';
+  b.style.background = '#1A3A1A';
+  b.style.color = '#4CD964';
+  b.style.boxShadow = '0 4px 16px rgba(76,217,100,0.3)';
+  setTimeout(() => {
+    b.textContent = '💾 Save to Library';
+    b.style.background = '';
+    b.style.color = '';
+    b.style.boxShadow = '';
+  }, 2000);
+}
+
+// ── Stars ──
+function makeStars(containerId, count) {
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  for (let i = 0; i < count; i++) {
+    const d = document.createElement('div');
+    d.className = 'star-dot';
+    d.style.left   = Math.random() * 100 + '%';
+    d.style.top    = Math.random() * 100 + '%';
+    d.style.setProperty('--d',     (2 + Math.random() * 4) + 's');
+    d.style.setProperty('--delay', (Math.random() * 4)     + 's');
+    d.style.opacity = Math.random() * 0.6 + 0.1;
+    c.appendChild(d);
+  }
+}
+makeStars('stars',   60);
+makeStars('endStars', 80);
+</script>
+</body>
+</html>
