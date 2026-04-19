@@ -397,8 +397,13 @@ body {
   flex-shrink: 0; position: relative; overflow: hidden;
 }
 .story-art-glow { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 80%, rgba(240,192,64,0.12), transparent 60%); }
-.story-text { font-size: 18px; line-height: 1.85; color: var(--text-primary); font-weight: 400; letter-spacing: 0.1px; }
-.story-text p { margin-bottom: 20px; }
+.story-text { font-size: 17px; line-height: 1.9; color: var(--text-primary); font-weight: 400; letter-spacing: 0.1px; }
+.story-text p { margin-bottom: 22px; }
+.story-chunk { margin-bottom: 28px; }
+.story-chunk p { margin-bottom: 6px; }
+.chunk-break { display: block; text-align: center; color: var(--text-tertiary); font-size: 13px; letter-spacing: 4px; margin: 24px 0 24px; opacity: 0.4; }
+.sleep-text { color: var(--moon); opacity: 0.9; }
+.sleep-text-dim { color: var(--text-secondary); opacity: 0.75; font-style: italic; }
 .moral-card { background: var(--bg-2); border: 1px solid rgba(240,192,64,0.2); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 24px; }
 
 /* AUDIO BAR */
@@ -781,7 +786,7 @@ body {
     <!-- Special Story Mode -->
     <div class="input-wrap">
       <label class="input-label" style="margin-bottom:3px">✨ Special story mode</label>
-      <div style="font-size:11px; color:var(--text-tertiary); margin-bottom:8px">Gentle sleep psychology woven into the narrative</div>
+      <div style="font-size:11px; color:var(--text-tertiary); margin-bottom:8px">Short punchy moments → dramatic hook → moral delivered naturally → gentle sleep arc</div>
       <div class="chips">
         <div class="chip special" onclick="togSpecial(this)">🌙 Drift to Sleep</div>
         <div class="chip special" onclick="togSpecial(this)">🌈 Spark Wonder</div>
@@ -1071,7 +1076,8 @@ body {
     <div style="display:flex; flex-direction:column; gap:9px; text-align:left; background:var(--bg-2); border:1px solid var(--border); border-radius:var(--radius-md); padding:16px">
       <div style="font-size:12px; color:var(--text-secondary)"><span style="color:var(--gold)">✓</span> &nbsp;Selecting Ramayana template</div>
       <div style="font-size:12px; color:var(--text-secondary)"><span style="color:var(--gold)">✓</span> &nbsp;Weaving in Arya · Rohan · elephant</div>
-      <div style="font-size:12px; color:var(--text-secondary)" class="pulse"><span style="color:var(--gold-dim)">◌</span> &nbsp;Adding Drift-to-Sleep pacing…</div>
+      <div style="font-size:12px; color:var(--text-secondary)"><span style="color:var(--gold)">✓</span> &nbsp;Chunking into bite-sized moments</div>
+      <div style="font-size:12px; color:var(--text-secondary)" class="pulse"><span style="color:var(--gold-dim)">◌</span> &nbsp;Building the sleep arc…</div>
       <div style="font-size:12px; color:var(--text-tertiary)"><span style="color:var(--text-tertiary)">◌</span> &nbsp;Preparing voice narration</div>
     </div>
     <button class="btn-outline" style="margin-top:28px; width:auto; padding:11px 28px; font-size:14px" onclick="go('s-story')">Read now →</button>
@@ -1112,14 +1118,113 @@ body {
       </div>
 
       <div class="story-text">
-        <p>In the golden age of heroes, when stars shone warm and kind over all the world, there lived a young warrior named <span class="hl-h">Arya</span>. <span class="hl-h">Arya</span> was known across the land for her bravery — the quiet, steady kind that made even lions bow their heads.</p>
-        <p>One moonlit evening, her best friend <span class="hl-s">Rohan</span> came running through the mango grove. "<span class="hl-h">Arya</span>! <span class="hl-h">Arya</span>!" <span class="hl-s">Rohan</span> cried. "The elephant Gajendra has been captured! The kingdom of Kishkindha is in darkness!"</p>
-        <p><span class="hl-h">Arya</span> placed a steady hand on <span class="hl-s">Rohan</span>'s shoulder and remembered what <span class="hl-p">Priya Mamma</span> always whispered at bedtime: <em style="color:var(--gold)">"The brave don't wait for danger to pass — they walk toward it with a kind heart."</em></p>
-        <p>Together they journeyed through the forest of a hundred banyan trees, until the great Hanuman appeared — as tall as a mountain, fur gleaming like sunrise.</p>
-        <p>"I have heard of this young warrior," Hanuman said, looking at <span class="hl-h">Arya</span>. "Is it true you face any challenge without fear?" <span class="hl-h">Arya</span> didn't boast. She simply said, "I will try my best." That honest answer was all Hanuman needed.</p>
-        <p><span class="hl-h">Arya</span> noticed something no warrior had seen — Gajendra was pressing her great trunk against a stone wall, searching for a hidden door. On the twenty-first brick, <span class="hl-h">Arya</span> pushed — and a secret passage swung open, flooding the kingdom with golden light.</p>
-        <p>Hanuman lifted <span class="hl-h">Arya</span> onto his shoulder. "Today, <span class="hl-h">Arya</span> teaches us the greatest lesson: true bravery is seeing what others miss — and acting with both courage and kindness."</p>
-        <p>That night, <span class="hl-h">Arya</span> sat with <span class="hl-s">Rohan</span> under the stars, her eyes growing heavy and soft. And somewhere, <span class="hl-p">Priya Mamma</span> smiled — because her brave hero was gently, peacefully, drifting off to sleep. ✦</p>
+
+        <div class="story-chunk">
+          <p>One night, the moon disappeared.</p>
+          <p>Not dimmed. Not hiding behind a cloud.</p>
+          <p><strong>GONE.</strong></p>
+        </div>
+
+        <div class="story-chunk">
+          <p><span class="hl-h">Arya</span> stared at the sky.</p>
+          <p>"<span class="hl-s">Rohan</span>," she whispered. "Where is the moon?"</p>
+          <p><span class="hl-s">Rohan</span> looked up. Then back at <span class="hl-h">Arya</span>. Then up again.</p>
+          <p>"Uh oh," said <span class="hl-s">Rohan</span>.</p>
+        </div>
+
+        <span class="chunk-break">✦ ✦ ✦</span>
+
+        <div class="story-chunk">
+          <p>Without the moon, the whole kingdom of Kishkindha was in darkness.</p>
+          <p>The monkeys couldn't find their bananas.</p>
+          <p>The elephants kept bumping into trees.</p>
+          <p>Even the stars looked nervous.</p>
+        </div>
+
+        <div class="story-chunk">
+          <p>"We have to find it," said <span class="hl-h">Arya</span>.</p>
+          <p>She grabbed her tiny torch.</p>
+          <p><span class="hl-s">Rohan</span> grabbed his bravest face.</p>
+          <p><em style="color:var(--text-secondary)">(It was a little wobbly. But it would do.)</em></p>
+        </div>
+
+        <span class="chunk-break">✦ ✦ ✦</span>
+
+        <div class="story-chunk">
+          <p>Then — <strong>WHOOOOSH.</strong></p>
+          <p>A giant landed right in front of them.</p>
+          <p>It was Hanuman.</p>
+          <p>As tall as three houses. His smile wider than a river.</p>
+        </div>
+
+        <div class="story-chunk">
+          <p>"You're looking for the moon," said Hanuman.</p>
+          <p>"Yes!" said <span class="hl-h">Arya</span>.</p>
+          <p>"I know where it is."</p>
+          <p>"<strong>WHERE?</strong>" shouted <span class="hl-h">Arya</span> and <span class="hl-s">Rohan</span> together.</p>
+          <p>Hanuman leaned down slowly and whispered —</p>
+          <p><em style="color:var(--gold)">"It's scared."</em></p>
+        </div>
+
+        <span class="chunk-break">✦ ✦ ✦</span>
+
+        <div class="story-chunk">
+          <p><span class="hl-h">Arya</span> blinked.</p>
+          <p>She had never thought about that.</p>
+          <p>Even the moon could feel scared.</p>
+          <p>Just like she did sometimes. On the first day of school. Before trying something new.</p>
+        </div>
+
+        <div class="story-chunk">
+          <p>"What does it need?" asked <span class="hl-h">Arya</span> softly.</p>
+          <p>"The same thing you need," said Hanuman.</p>
+          <p>"Someone kind. Someone safe. Someone to say — <em style="color:var(--gold)">I see you.</em>"</p>
+        </div>
+
+        <span class="chunk-break">✦ ✦ ✦</span>
+
+        <div class="story-chunk sleep-text">
+          <p>So <span class="hl-h">Arya</span> sat down in the dark.</p>
+          <p>She thought of what <span class="hl-p">Priya Mamma</span> always sang at bedtime.</p>
+          <p>Quietly. Very quietly.</p>
+          <p>She started to hum.</p>
+        </div>
+
+        <div class="story-chunk sleep-text">
+          <p>And slowly...</p>
+          <p>The sky got a little lighter.</p>
+          <p>A silver edge peeked out from behind a cloud.</p>
+          <p>Then more. And more.</p>
+        </div>
+
+        <div class="story-chunk sleep-text-dim">
+          <p>The moon was back.</p>
+          <p>Round and warm and low.</p>
+          <p>Like a nightlight.</p>
+          <p>Just for them.</p>
+        </div>
+
+        <div class="story-chunk sleep-text-dim">
+          <p><span class="hl-s">Rohan</span> yawned.</p>
+          <p><span class="hl-h">Arya</span> yawned.</p>
+          <p>Even Hanuman yawned — then pretended he didn't.</p>
+        </div>
+
+        <div class="story-chunk sleep-text-dim">
+          <p>"Time to go home," <span class="hl-h">Arya</span> said quietly.</p>
+          <p>Her eyes felt heavy.</p>
+          <p>Her legs felt slow.</p>
+          <p>Everything felt still.</p>
+        </div>
+
+        <div class="story-chunk" style="opacity:0.6; font-style:italic; color:var(--moon)">
+          <p><span class="hl-h">Arya</span> closed her eyes.</p>
+          <p>The moon shone just for her.</p>
+          <p><span class="hl-p">Priya Mamma</span> was nearby.</p>
+          <p>Everything was safe.</p>
+          <p>And she slept. ✦</p>
+        </div>
+
       </div>
 
       <div class="moral-card">
